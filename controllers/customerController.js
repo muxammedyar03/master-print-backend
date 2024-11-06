@@ -3,7 +3,6 @@ const Customer = require("../models/Customer");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");  // Agar parolni tekshirishni xohlasangiz, bcryptni qo'shishingiz mumkin
 
-// Foydalanuvchi ro'yxatdan o'tishi
 const registerCustomer = async (phoneNumber, name, password) => {
   let customer = await Customer.findOne({ phoneNumber });
   if (customer) {
@@ -26,7 +25,6 @@ const registerCustomer = async (phoneNumber, name, password) => {
   return token;
 };
 
-// Foydalanuvchi tizimga kirishi
 const loginCustomer = async (phoneNumber, name, password) => {
   const customer = await Customer.findOne({ phoneNumber, name });
   if (!customer) {
