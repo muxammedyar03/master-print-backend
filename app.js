@@ -1,9 +1,8 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-const adminRoutes = require("./routes/adminRoutes");
-const customerRoutes = require("./routes/customerRoutes");
-const orderRouter = require("./routes/orderRoutes");
+const categoryRoutes = require("./modules/category/routes/categoryRoutes");
+
 
 
 // Configurations
@@ -16,10 +15,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('Salom, Node.js va Express.js! PostgreSQL');
 });
-
-app.use("/admin", adminRoutes);
-app.use("/customer", customerRoutes);
-app.use("/order", orderRouter)
+app.use("/categories", categoryRoutes);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
