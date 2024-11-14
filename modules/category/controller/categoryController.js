@@ -1,4 +1,4 @@
-const CategoryService = require("../services/CategoryService");
+const CategoryService = require('../services/CategoryService')
 
 class CategoryController {
     async create(req, res) {
@@ -13,12 +13,20 @@ class CategoryController {
     async update(req, res) {
         try {
             const category = await CategoryService.update(req.params.id, req.body, req.file);
-            res.json(category);
+            res.status(200).json(category);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({message: "from update controller", error: error.message });
         }
     }
-
+    async getAll(req, res) {
+        try {
+            const categories = await CategoryService.getAll();
+            res.json(categories);
+        }
+        catch (error) {
+            throw new Error(error.message);
+        }
+    }
     async getOne(req, res) {
         try {
             const category = await CategoryService.getOne(req.params.id);
@@ -60,7 +68,7 @@ class CategoryController {
             await CategoryService.deleteAll();
             res.json({ message: "All categories deleted" });
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({message: "from Controller", error: error.message });
         }
     }
 }

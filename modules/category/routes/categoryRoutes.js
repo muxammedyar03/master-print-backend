@@ -1,17 +1,17 @@
 const express = require("express");
-const multer = require("multer");
 const CategoryController = require("../controller/categoryController");
 
 const router = express.Router();
-const upload = multer();
+const { upload } = require('../services/FileService')
 
 // Category yo‘nalishlari
-router.post("/", upload.single("file"), CategoryController.create);
-router.put("/:id", upload.single("file"), CategoryController.update);
+router.post("/c",upload.single("image"), CategoryController.create);
+router.put("/one/:id",upload.single("image"), CategoryController.update);
+router.get("/all", CategoryController.getAll)
 router.get("/:id", CategoryController.getOne);
 router.get("/", CategoryController.getMany);
-router.delete("/:id", CategoryController.deleteOne);
-router.delete("/", CategoryController.deleteMany);
+router.delete("/one/:id", CategoryController.deleteOne);
+router.delete("/many", CategoryController.deleteMany);
 router.delete("/all", CategoryController.deleteAll);
 
 module.exports = router;
