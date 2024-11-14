@@ -17,7 +17,7 @@ class CategoryService {
             throw error;
         }
     }
-    
+
 
     async update(id, data, file) {
         const category = await Category.findById(id);
@@ -32,30 +32,54 @@ class CategoryService {
         return await category.save();
     }
     async getAll(){
-        return await Category.find({});
+        try {
+            return await Category.find({});
+        } catch (error) {
+            throw new Error("Error while getting all categories in category service" + error.message);
+        }   
     }
     async getOne(id) {
-        return await Category.findById(id);
+        try {
+            return await Category.findById(id); 
+        } catch (error) {
+            throw new Error("Error with category getOne service function: " + error.message);
+        }
     }
 
     async getMany(filter = {}) {
-        return await Category.find(filter);
+        try {
+            const ids = filter._id.split(',');
+
+            const categories = await Category.find({ _id: { $in: ids } });
+            return categories
+        } catch (error) {
+            throw new Error("Error with category getMany service function: " + error.message);
+        }
     }
 
     async deleteOne(id) {
-        const category = await Category.findByIdAndDelete(id);
-        if (category && category.imageUrl) {
-            FileService.deleteFile(category.imageUrl);
+        try {
+            const category = await Category.findByIdAndDelete(id);
+            if (category && category.image) {
+                FileService.deleteFile(category.image);
+            }
+            return category;
+        } catch (error) {
+            throw new Error("Error with category deleteOne service function: " + error.message);
         }
-        return category;
     }
 
     async deleteMany(filter = {}) {
-        const categories = await Category.find(filter);
-        categories.forEach((category) => {
-            if (category.imageUrl) FileService.deleteFile(category.imageUrl);
-        });
-        return await Category.deleteMany(filter);
+        try {
+            const ids = filter._id.split(',');
+            const categories = await Category.find({ _id: { $in: ids } });
+            categories.forEach((category) => {
+                if (category.image) FileService.deleteFile(category.image);
+            });
+            return await Category.deleteMany({ _id: { $in: ids } });
+        } catch (error) {
+            throw new Error("Error with category deleteMany service function: " + error.message);
+        }
     }
 
     async deleteAll() {
