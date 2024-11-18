@@ -83,11 +83,15 @@ class CategoryService {
     }
 
     async deleteAll() {
-        const categories = await Category.find();
-        categories.forEach((category) => {
-            if (category.image) FileService.deleteFile(category.image);
-        });
-        return await Category.deleteMany({});
+        try {
+            const categories = await Category.find();
+            categories.forEach((category) => {
+                if (category.image) FileService.deleteFile(category.image);
+            });
+            return await Category.deleteMany({});
+        } catch (error) {
+            throw new Error("Error with category service: " + error.message);
+        }
     }
 }
 

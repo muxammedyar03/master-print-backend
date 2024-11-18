@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const categoryRoutes = require("./modules/category/routes/categoryRoutes");
+const clubRoutes = require("./modules/clubs/Routes/clubRoutes");
 
 dotenv.config();
 connectDB();
@@ -14,7 +15,7 @@ app.get('/', (req, res) => {
   res.send('Salom, Node.js va Express.js! PostgreSQL');
 });
 app.use("/category", categoryRoutes);
-
+app.use('/club', clubRoutes)
 const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
