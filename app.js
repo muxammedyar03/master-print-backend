@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const categoryRoutes = require("./modules/category/routes/categoryRoutes");
 const clubRoutes = require("./modules/clubs/Routes/clubRoutes");
+const OrderRouter = require("./modules/order/Routes/OrderRoutes");
 
 dotenv.config();
 connectDB();
@@ -16,6 +17,7 @@ app.get('/', (req, res) => {
 });
 app.use("/category", categoryRoutes);
 app.use('/club', clubRoutes)
+app.use('/order', OrderRouter)
 const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {

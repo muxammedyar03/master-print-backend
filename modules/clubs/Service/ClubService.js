@@ -74,12 +74,12 @@ class ClubService {
    }
   async deleteAll() {
       try {
-          const clubs = await Club.find();
-          clubs.forEach((club) => {
-              if (club.image) FileService.deleteFile(club.image);
-          });
-          
-          return await Club.deleteMany({});
+        const clubs = await Club.find();
+        clubs.forEach((club) => {
+            if (club.image) FileService.deleteFile(club.image);
+        });
+        
+        return await Club.deleteMany({});
       } catch (error) {
           throw new Error("error with service" + error.message)
       }
